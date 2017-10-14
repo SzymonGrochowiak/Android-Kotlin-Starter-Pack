@@ -32,11 +32,8 @@ class StarterPackApplication : Application() {
     }
 
     private fun initDaggerComponent() {
-        daggerComponent = DaggerApplicationComponent.builder()
-                .localDataModule(LocalDataModule())
-                .networkingModule(NetworkingModule(BASE_ENDPOINT))
-                .repositoryModule(RepositoryModule())
-                .build()
+        daggerComponent = DaggerApplicationComponent.builder().localDataModule(LocalDataModule()).networkingModule(
+                NetworkingModule(BASE_ENDPOINT)).repositoryModule(RepositoryModule()).build()
     }
 
     private fun initRxJava() {

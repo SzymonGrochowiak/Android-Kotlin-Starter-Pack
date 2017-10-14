@@ -3,6 +3,7 @@ package com.szymongrochowiak.androidkotlinstarterpack.ui.main
 import com.szymongrochowiak.androidkotlinstarterpack.data.Repository
 import com.szymongrochowiak.androidkotlinstarterpack.data.model.Berry
 import com.szymongrochowiak.androidkotlinstarterpack.ui.common.mvp.RxPresenter
+import io.reactivex.rxkotlin.subscribeBy
 
 /**
  * @author Szymon Grochowiak
@@ -15,16 +16,15 @@ class MainPresenter(private val repository: Repository) : RxPresenter<MainView>(
     fun queryBerry(berryId: Int) {
         if (restoreViewStateIfExist(berry, errorMessage)) return
         sendToView { it.showLoading() }
-        val fetchBerryDisposable = repository.queryBerry(berryId)
-                .subscribe({ berry ->
-                    this.berry = berry
-                    sendToView({ view -> view.showContent(berry) })
-                }, { throwable ->
-                    val errorMessage = throwable.toString()
-                    this.errorMessage = errorMessage
-                    sendToView({ it.showError(errorMessage) })
-                    sendToView({ it.hideLoading() })
-                }, { sendToView({ it.hideLoading() }) })
+        val fetchBerryDisposable = repository.queryBerry(berryId).subscribeBy(onNext = { berry ->
+            this.berry = berry
+            sendToView { it.showContent(berry) }
+        }, onError = { throwable ->
+            val errorMessage = throwable.toString()
+            this.errorMessage = errorMessage
+            sendToView { it.showError(errorMessage) }
+            sendToView { it.hideLoading() }
+        }, onComplete = { sendToView { it.hideLoading() } })
         compositeDisposable.add(fetchBerryDisposable)
     }
 

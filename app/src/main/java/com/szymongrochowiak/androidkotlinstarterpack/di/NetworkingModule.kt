@@ -3,6 +3,7 @@ package com.szymongrochowiak.androidkotlinstarterpack.di
 import android.app.Application
 import com.squareup.moshi.Moshi
 import com.szymongrochowiak.androidkotlinstarterpack.data.local.LocalRepository
+import com.szymongrochowiak.androidkotlinstarterpack.data.network.ApiInterface
 import com.szymongrochowiak.androidkotlinstarterpack.data.network.NetworkRepository
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,6 @@ import javax.inject.Singleton
 class NetworkingModule(private val endpoint: String) {
 
     companion object {
-
         private val CACHE_SIZE_MB = 40 * 1024 * 1024  // 40 MB
         private val CONNECTION_RETRIES = 2
     }
@@ -50,17 +50,13 @@ class NetworkingModule(private val endpoint: String) {
     @Provides
     @Singleton
     fun provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(endpoint)
-                .client(okHttpClient)
-                .build()
+        return Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).addCallAdapterFactory(
+                RxJava2CallAdapterFactory.create()).baseUrl(endpoint).client(okHttpClient).build()
     }
 
     @Provides
     @Singleton
     fun provideNetworkRepository(localRepository: LocalRepository, retrofit: Retrofit): NetworkRepository {
-        return NetworkRepository()
+        return NetworkRepository(retrofit.create<ApiInterface>(ApiInterface::class.java), CONNECTION_RETRIES)
     }
 }

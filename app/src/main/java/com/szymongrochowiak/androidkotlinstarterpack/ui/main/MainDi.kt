@@ -10,8 +10,7 @@ import javax.inject.Scope
 /**
  * @author Szymon Grochowiak
  */
-@Scope
-annotation class MainScope
+@Scope annotation class MainScope
 
 @Module
 class MainModule {

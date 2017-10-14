@@ -17,7 +17,7 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideApplicationRepository(networkRepository: NetworkRepository,
-                                               localRepository: LocalRepository): Repository {
+                                     localRepository: LocalRepository): Repository {
         return ApplicationRepository(listOf(networkRepository, localRepository))
     }
 }

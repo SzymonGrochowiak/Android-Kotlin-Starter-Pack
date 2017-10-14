@@ -5,9 +5,9 @@ import io.reactivex.Observable
 /**
  * @author Szymon Grochowiak
  */
-class ApplicationRepository(val repositoriesPriority: List<Repository>) : Repository {
+class ApplicationRepository(private val repositoriesPriority: List<Repository>) : Repository {
 
-    override fun queryBerry(id: Int) = Observable.fromIterable(repositoriesPriority)
-            .concatMap { it.queryBerry(id) }
-            .filter { it != null }
+    override fun queryBerry(id: Int) = Observable.fromIterable(repositoriesPriority).concatMap {
+        it.queryBerry(id)
+    }.take(1)!!
 }
