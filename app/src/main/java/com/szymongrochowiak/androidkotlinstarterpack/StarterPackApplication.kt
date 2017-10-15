@@ -32,7 +32,8 @@ class StarterPackApplication : Application() {
     }
 
     private fun initDaggerComponent() {
-        daggerComponent = DaggerApplicationComponent.builder().localDataModule(LocalDataModule()).networkingModule(
+        daggerComponent = DaggerApplicationComponent.builder().applicationModule(
+                ApplicationModule(this)).localDataModule(LocalDataModule()).networkingModule(
                 NetworkingModule(BASE_ENDPOINT)).repositoryModule(RepositoryModule()).build()
     }
 

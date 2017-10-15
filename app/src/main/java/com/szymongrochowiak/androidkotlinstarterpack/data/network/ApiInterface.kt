@@ -11,5 +11,5 @@ import retrofit2.http.Path
 interface ApiInterface {
 
     @GET("berry/{id}")
-    fun getBerry(@Path("id") id: Int): Observable<Berry>
+    fun getBerry(@Path("id") id: Long): Observable<Berry>
 }

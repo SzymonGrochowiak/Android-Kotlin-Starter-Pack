@@ -55,13 +55,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Until the ObjectBox Gradle plugin has better support for Kotlin, we must help it a bit:
+    //task('compileKotlin').dependsOn objectbox
+    sourceSets {
+        main.java.srcDirs += 'build/generated/source/objectbox'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$KOTLIN_VERSION"
 
     // Support library
     implementation "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
@@ -69,14 +75,19 @@ dependencies {
     implementation "com.android.support:support-annotations:$SUPPORT_LIB_VERSION"
     implementation "com.android.support.constraint:constraint-layout:$CONSTRAINT_LAYOUT_VERSION"
 
+    // Data base - ObjectBox
+    compile "io.objectbox:objectbox-android:$OBJECTBOX_VERSION"
+    compile "io.objectbox:objectbox-kotlin:$OBJECTBOX_VERSION"
+    kapt "io.objectbox:objectbox-processor:$OBJECTBOX_VERSION"
+
     // Architecture - MVP Mosby
     implementation "com.hannesdorfmann.mosby3:mvp:$MOSBY_MVP_VERSION"
 
-    // Dagger 2
+    // Dependency injection - Dagger 2
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
-    // Moshi - JSON parser
+    // JSON parser - Moshi
     implementation "com.squareup.moshi:moshi:$MOSHI_VERSION"
 
     // RxJava

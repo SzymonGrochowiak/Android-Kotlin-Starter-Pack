@@ -9,11 +9,11 @@ import javax.inject.Singleton
  * @author Szymon Grochowiak
  */
 @Module
-class ApplicationModule(private val mApplication: Application) {
+class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
     fun providesStarterPackApplication(): Application {
-        return mApplication
+        return application
     }
 }

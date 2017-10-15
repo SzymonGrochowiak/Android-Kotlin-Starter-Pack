@@ -8,5 +8,5 @@ import io.reactivex.Observable
  */
 interface Repository {
 
-    fun queryBerry(id: Int): Observable<Berry>
+    fun queryBerry(id: Long): Observable<Berry>
 }

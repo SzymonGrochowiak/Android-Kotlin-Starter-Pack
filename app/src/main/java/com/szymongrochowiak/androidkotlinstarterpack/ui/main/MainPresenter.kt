@@ -13,7 +13,7 @@ class MainPresenter(private val repository: Repository) : RxPresenter<MainView>(
     private var berry: Berry? = null
     private var errorMessage: String? = null
 
-    fun queryBerry(berryId: Int) {
+    fun queryBerry(berryId: Long) {
         if (restoreViewStateIfExist(berry, errorMessage)) return
         sendToView { it.showLoading() }
         val fetchBerryDisposable = repository.queryBerry(berryId).subscribeBy(onNext = { berry ->

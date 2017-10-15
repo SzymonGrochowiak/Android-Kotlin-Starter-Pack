@@ -14,5 +14,5 @@ class NetworkRepository(private val apiInterface: ApiInterface, private val conn
             //applySaveLocally(mRepositoryWriter))
     )
 
-    override fun queryBerry(id: Int) = apiInterface.getBerry(id).compose(applyRequestTransformations<Berry>())!!
+    override fun queryBerry(id: Long) = apiInterface.getBerry(id).compose(applyRequestTransformations<Berry>())!!
 }

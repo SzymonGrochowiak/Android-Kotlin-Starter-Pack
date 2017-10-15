@@ -1,6 +1,9 @@
 package com.szymongrochowiak.androidkotlinstarterpack.data.model
 
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
+
 /**
  * @author Szymon Grochowiak
  */
-data class Berry(val id: Int, val name: String)
+@Entity data class Berry(@Id var id: Long, var name: String)

@@ -20,11 +20,11 @@ fun <T> applyTransformations(vararg transformers: ObservableTransformer<T, T>): 
     }
 }
 
-fun <T> applySchedulers(): ObservableTransformer<T, T> = ObservableTransformer {
+fun <T> applySchedulers() = ObservableTransformer<T, T> {
     it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 }
 
-fun <T> applyOnErrorResumeNext(): ObservableTransformer<T, T> = ObservableTransformer {
+fun <T> applyOnErrorResumeNext() = ObservableTransformer<T, T> {
     it.onErrorResumeNext(Function { throwable ->
         if (throwable is IOException) Observable.empty<T>() else Observable.error<T>(throwable)
     })
@@ -41,6 +41,6 @@ fun <T> applySaveLocally(repositoryWriter: RepositoryWriter): ObservableTransfor
 }
 */
 
-fun <T> applyConnectionRetires(connectionRetries: Int): ObservableTransformer<T, T> = ObservableTransformer {
+fun <T> applyConnectionRetires(connectionRetries: Int) = ObservableTransformer<T, T> {
     it.retry(connectionRetries.toLong())
 }

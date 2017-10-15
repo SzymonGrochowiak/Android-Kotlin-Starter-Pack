@@ -52,13 +52,13 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, Navigati
         navigationView.setNavigationItemSelectedListener(this)
 
         if (savedInstanceState != null) {
-            berryId = savedInstanceState.getInt(BUNDLE_KEY_BERRY_ID)
+            berryId = savedInstanceState.getLong(BUNDLE_KEY_BERRY_ID)
         }
         getPresenter().queryBerry(berryId)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(BUNDLE_KEY_BERRY_ID, berryId)
+        outState.putLong(BUNDLE_KEY_BERRY_ID, berryId)
         super.onSaveInstanceState(outState)
     }
 
@@ -116,5 +116,5 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, Navigati
         progressBar.visibility = View.GONE
     }
 
-    private fun generateBerryId() = Random().nextInt(20)
+    private fun generateBerryId() = Random().nextInt(20).toLong()
 }
